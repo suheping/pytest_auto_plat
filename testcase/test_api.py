@@ -18,12 +18,16 @@ from util.jsonPah import JsonPah
 from util.replace import Replace
 from util.copyXls import copyXls
 
+# 用例路径
 caseXls = 'E:\pyworkspace\pytest_demo\data\case1.xlsx'
 rxls = readXlsUtil.readXlsUtil(caseXls, 'Sheet1')
+# 获取type为1的测试用例
 caseData = rxls.dict_data(1)
+# 获取用例名称
+caseNames = rxls.dict_name(caseData)
+# 测试结果文件
 reportXls = 'E:\pyworkspace\pytest_demo\data\case1_report.xlsx'
 copyXls(caseXls, reportXls)
-caseNames = rxls.dict_name(caseData)
 
 
 @allure.feature('测试某个功能')
@@ -39,7 +43,7 @@ class Test_api(object):
     def testApi(self, data):  # test method names begin with 'test'
         self.logger.info('----------begin-------------')
         if self.tmp != {}:
-            # 如果有关联参数，替换body、params、url
+            # 如果有关联参数，替换body、params、url、headers
             data['body'] = Replace(data['body'], self.tmp).replace()
             data['params'] = Replace(data['params'], self.tmp).replace()
             data['url'] = Replace(data['url'], self.tmp).replace()

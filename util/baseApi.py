@@ -4,6 +4,7 @@
 # file:baseApi
 # desc: 封装http请求，写测试结果
 
+from email import header
 import json
 import requests
 from util.copyXls import writeXls, copyXls
@@ -16,52 +17,70 @@ logger = Log('baseApi').getlogger()
 def sendRequest(session, testData):
     '''封装requests请求'''
     # print('testdata:%s'%testData)
+
     caseId = testData['caseId']
     method = testData['method']
     url = testData['url']
+    bodyType = testData['bodyType']
+    body = testData['body']
+    # 判断bodyType
+    if bodyType == 'json':
+        if body == '':
+            body = {}
+        else:
+            try:
+                body = eval(testData['body'])
+                body = json.dumps(body)
+            except:
+                body = {}
+                logger.info('body格式化为json失败，请检查')
+
+    elif bodyType == 'file':
+        body = testData['body']
+    else:
+        logger.info('请求body_type为其他格式，请填写json或file')
+
+    # 格式化params
     try:
         params = eval(testData['params'])
     except:
         params = None
-        logger.info('请求params 为空')
+        logger.info('params格式化为json失败，请检查')
 
+    # 格式化headers
     try:
         headers = eval(testData['headers'])
     except:
         headers = None
-        logger.info('请求headers 为空')
-    bodyType = testData['bodyType']
+        logger.info('headers格式化为json失败，请检查')
+
+    verify = False
+    result = {}
 
     logger.info("*******正在执行用例：-----  %s  ----**********" % caseId)
     logger.info("请求方式：%s, 请求url:%s" % (method, url))
     logger.info("请求params：%s" % params)
     logger.info("请求headers：%s" % headers)
-
+    logger.info('请求body：%s' % body)
     try:
-        body = eval(testData['body'])
-    except:
-        body = {}
-        logger.info('请求dody 为空')
-
-    if bodyType == 'json':
-        body = json.dumps(body)
-    else:
-        logger.info('请求body_type 为空')
-        body = body
-    if method == 'post':
-        logger.info("post请求body类型为：%s，body内容为：%s" % (bodyType, body))
-
-    verify = False
-    result = {}
-
-    try:
-        response = session.request(method=method,
-                                   url=url,
-                                   params=params,
-                                   headers=headers,
-                                   data=body,
-                                   verify=verify
-                                   )
+        response = None
+        if bodyType == 'json':
+            response = session.request(method=method,
+                                       url=url,
+                                       params=params,
+                                       headers=headers,
+                                       data=body,
+                                       verify=verify
+                                       )
+        elif bodyType == 'file':
+            uploadFile = {'file': open(body, 'rb')}
+            response = session.request(method=method,
+                                       url=url,
+                                       params=params,
+                                       headers=headers,
+                                       files=uploadFile,
+                                       verify=verify
+                                       )
 
         logger.info("返回信息：%s" % response.content.decode('utf-8'))
         if 'sheetName' in testData.keys():
@@ -116,8 +135,17 @@ def writeResult2(result, filename):
 
 
 if __name__ == '__main__':
-    testData = readXlsUtil('../data/case1.xlsx', 'sheet1').dict_data(1)
-    session = requests.session()
-    result = sendRequest(session, testData[0])
-    copyXls('../data/case1.xlsx', '../report/case1_result.xlsx')
-    writeResult(result, '../report/case1_result.xlsx')
+    # testData = readXlsUtil('../data/case1.xlsx', 'sheet1').dict_data(1)
+    # session = requests.session()
+    # result = sendRequest(session, testData[0])
+    # copyXls('../data/case1.xlsx', '../report/case1_result.xlsx')
+    # writeResult(result, '../report/case1_result.xlsx')
+
+    # 文件上传测试
+    # file = {'file': open(
+    #     'E:\\pyworkspace\\pytest_demo\\data\\files\\公章.png', 'rb')}
+    # session = requests.session()
+    # response = session.request(url='http://192.168.1.206:9000/api/v1/file/upload', method='post', params={"file_type": "impression", "file_name": "测试公章", "user_id": "00788730734155812864"}, headers={
+    #                            "token": "0a5946bf-ae2c-4063-97a8-41d1fadf939d"}, files=file)
+    # print(response.text)
+    pass
