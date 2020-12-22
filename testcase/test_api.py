@@ -17,6 +17,7 @@ from util.baseApi import sendRequest, writeResult
 from util.jsonPah import JsonPah
 from util.replace import Replace
 from util.copyXls import copyXls
+from util.genSign import GenSign
 
 # 用例路径
 caseXls = 'E:\pyworkspace\pytest_demo\data\case1.xlsx'
@@ -41,10 +42,14 @@ class Test_api(object):
     # @allure.story('查询企业信息')
     @pytest.mark.parametrize('data', caseData, ids=caseNames)
     def testApi(self, data):  # test method names begin with 'test'
-        self.logger.info('----------begin-------------')
+        self.logger.info(
+            '----用例[ %s ]------begin-------------' % data['caseId'])
         if self.tmp != {}:
             # 如果有关联参数，替换body、params、url、headers
             data['body'] = Replace(data['body'], self.tmp).replace()
+            # 计算sign
+            sign = GenSign('vtysJXstynJpIlEudO').genSign(data['body'])
+            self.tmp['sign'] = sign
             data['params'] = Replace(data['params'], self.tmp).replace()
             data['url'] = Replace(data['url'], self.tmp).replace()
             data['headers'] = Replace(data['headers'], self.tmp).replace()
@@ -61,7 +66,7 @@ class Test_api(object):
         writeResult(result, reportXls)
         # 开始断言
         assert result['result'] == 'pass'
-        self.logger.info('----------end-------------')
+        self.logger.info('----用例[ %s ]------end-------------' % data['caseId'])
 
 
 if __name__ == '__main__':

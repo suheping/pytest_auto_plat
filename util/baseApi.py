@@ -23,7 +23,7 @@ def sendRequest(session, testData):
     url = testData['url']
     bodyType = testData['bodyType']
     body = testData['body']
-    # 判断bodyType
+    # 判断bodyType，格式化body
     if bodyType == 'json':
         if body == '':
             body = {}
@@ -34,7 +34,6 @@ def sendRequest(session, testData):
             except:
                 body = {}
                 logger.info('body格式化为json失败，请检查')
-
     elif bodyType == 'file':
         body = testData['body']
     else:
@@ -57,7 +56,6 @@ def sendRequest(session, testData):
     verify = False
     result = {}
 
-    logger.info("*******正在执行用例：-----  %s  ----**********" % caseId)
     logger.info("请求方式：%s, 请求url:%s" % (method, url))
     logger.info("请求params：%s" % params)
     logger.info("请求headers：%s" % headers)
@@ -81,8 +79,24 @@ def sendRequest(session, testData):
                                        files=uploadFile,
                                        verify=verify
                                        )
-
-        logger.info("返回信息：%s" % response.content.decode('utf-8'))
+        responseType = response.headers['Content-Type']
+        # 判断响应的数据类型
+        if responseType == 'application/json':
+            logger.info("返回信息：%s" % response.content.decode('utf-8'))
+            result["text"] = response.content.decode("utf-8")
+        elif responseType == 'application/octet-stream; charset=utf-8':
+            logger.info('返回为字节流，大小为%sB' % response.headers['Content-Length'])
+            result["text"] = '字节流，大小为%sB' % response.headers['Content-Length']
+            result["result"] = "pass"
+            result['error'] = ""
+            # 将字节流保存到本地
+            savedFile = 'E:\\pyworkspace\\pytest_demo\\data\\download\\' + \
+                response.headers['Content-Disposition'].split('=')[1]
+            with open(savedFile, "wb") as code:
+                code.write(response.content)
+        else:
+            # 待判断
+            pass
         if 'sheetName' in testData.keys():
             result['sheetName'] = testData['sheetName']
         else:
@@ -91,18 +105,19 @@ def sendRequest(session, testData):
         result['id'] = testData['caseId']
         result['rowNum'] = testData['rowNum']
         result["statusCode"] = str(response.status_code)  # 状态码转成str
-        result["text"] = response.content.decode("utf-8")
         result["times"] = str(response.elapsed.total_seconds())  # 接口请求时间转str
+
         # 判断http状态码，如果不是200，判定为失败
         if result["statusCode"] != "200":
             result["error"] = result["text"]
             result["result"] = "fail"
         else:   # 如果http状态码是200，进行检查点的判断
-            result["error"] = ""
-            if testData["checkpoint"] in result["text"]:
-                result["result"] = "pass"
-            else:
-                result["result"] = "fail"
+            if responseType == 'application/json':
+                result["error"] = ""
+                if testData["checkpoint"] in result["text"]:
+                    result["result"] = "pass"
+                else:
+                    result["result"] = "fail"
         # return result
     except Exception as e:
         result['error'] = str(e)
@@ -110,7 +125,7 @@ def sendRequest(session, testData):
         logger.error('请求报错，错误信息为：%s' % str(e))
         # return result
     finally:
-        logger.info("用例测试结果:   %s---->%s" % (caseId, result["result"]))
+        logger.info("用例%s测试结果[ %s ]" % (caseId, result["result"]))
         # print("result:%s" % result)
         return result
 
