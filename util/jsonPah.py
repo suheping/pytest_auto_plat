@@ -10,6 +10,7 @@
 
 # here put the import lib
 import json
+import execjs
 
 
 class JsonPah(object):
@@ -73,9 +74,19 @@ class JsonPah(object):
 
 if __name__ == '__main__':
 
-    s1 = '{"return_code":"1000","return_message":"success","result_code":"0","result_message":"处理成功","access_token":123,"data":{"access_token":"afdb9572-4993-4af4-9395-476c7646f398","scope":"token","token_type":"bearer","expires_in":69272}}'
-    j1 = '{"token":"access_token[1]","time":"expires_in"}'
+    s1 = '{"return_code":"1000","return_message":"success","result_code":"0","result_message":"处理成功","access_token":123,"data":[{"access_token":"456","scope":"token","token_type":"bearer","expires_in":69272},{"access_token":"789","scope":"token","token_type":"bearer","expires_in":69272}]}'
+    # s1 = '{"return_code":"1000","return_message":"success","result_code":"0","result_message":"处理成功","access_token":123,"data":{"access_token":"afdb9572-4993-4af4-9395-476c7646f398","scope":"token","token_type":"bearer","expires_in":69272}}'
+    j1 = '{"token":"access_token[2]","time":"expires_in"}'
     t = JsonPah(s1)
-    print(t.search_key('access_token[1]'))
+    # print(t.search_key('access_token[2]'))
 
     print(t.jsonFind(j1))
+
+    xxx = execjs.compile('''
+        function add(){
+      var a=100;
+      var b=10;
+      return a+b;
+    }
+    ''')
+    print(xxx.call("add"))

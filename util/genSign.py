@@ -68,12 +68,12 @@ if __name__ == '__main__':
     t = GenSign(key)
     print(t.genSign(body))
     # C1A2D06078E8CC9219559A85830C0A36
-    x = hmac.new(key.encode('utf-8'),
-                 body.replace(" ", "").encode(
-                     'utf-8'),
-                 digestmod=hashlib.sha256).digest()
+    # x = hmac.new(key.encode('utf-8'),
+    #              body.replace(" ", "").encode(
+    #                  'utf-8'),
+    #              digestmod=hashlib.sha256).digest()
 
-    y = base64.b64encode(x)
-    z = hashlib.md5(y).hexdigest()
-    # print(chardet.detect(z))
-    print(str(z).upper())
+    # y = base64.b64encode(x)
+    # z = hashlib.md5(y).hexdigest()
+    # # print(chardet.detect(z))
+    # print(str(z).upper())
