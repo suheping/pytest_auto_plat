@@ -1,8 +1,8 @@
 log/*
-! log/
+! log
 result/*
-! result/
+! result
 report/*
-! report/
+! report
 *.pyc
 data/download/*
