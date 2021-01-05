@@ -15,10 +15,10 @@
 2. excel 用例文件[case1.xlsx](/data/case1.xlsx)
 3. 待上传文件存放路径[files](/data/files)
 4. 下载文件存放路径[download](/data/download)
-5. 日志路径[log](/log)
+5. 日志路径`/log`
 6. 生成的测试结果文件[case1_report.xlsx](/data/case1_report.xlsx)
-7. 生成的 allure 结果路径[result](/result)
-8. 生成的 allure 报告路径[report](/report)
+7. 生成的 allure 结果路径`/result`
+8. 生成的 allure 报告路径`/report`
 9. 接口测试类文件路径[test_api.py](/testcase/test_api.py)
 10. http 请求工具类路径[baseApi.py](/util/baseApi.py)
 11. 关联工具类路径[jsonPath.py](/util/jsonPath.py) [replace.py](/util/replace.py)
