@@ -37,3 +37,7 @@
 1. jenkins 中配置源码 git 路径
 2. jenkins 中配置 allure
 3. 构建，查看报告
+
+# 5 联系我
+
+![peace测试空间](/data/files/qrcode.jpg '扫码关注我')
