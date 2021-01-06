@@ -6,6 +6,7 @@
 
 from email import header
 import json
+import os
 import requests
 from util.copyXls import writeXls, copyXls
 from util.readXlsUtil import readXlsUtil
@@ -90,7 +91,10 @@ def sendRequest(session, testData):
             result["result"] = "pass"
             result['error'] = ""
             # 将字节流保存到本地
-            savedFile = 'data\download\\' + \
+            downloadPath = 'data\\download\\'
+            if not os.path.exists(downloadPath):
+                os.mkdir(downloadPath)
+            savedFile = downloadPath + \
                 response.headers['Content-Disposition'].split('=')[1]
             with open(savedFile, "wb") as code:
                 code.write(response.content)

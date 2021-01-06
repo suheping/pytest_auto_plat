@@ -21,7 +21,7 @@ from util.genSign import GenSign
 
 # 用例路径
 # caseXls = 'data\case1.xlsx'
-caseXls = 'data\case1.xlsx'
+caseXls = 'data\\case1.xlsx'
 rxls = readXlsUtil.readXlsUtil(caseXls, 'Sheet1')
 # 获取type为1的测试用例
 caseData = rxls.dict_data(1)
@@ -29,7 +29,7 @@ caseData = rxls.dict_data(1)
 caseNames = rxls.dict_name(caseData)
 # 测试结果文件
 # reportXls = 'data\case1_report.xlsx'
-reportXls = 'data\case1_report.xlsx'
+reportXls = 'data\\case1_report.xlsx'
 copyXls(caseXls, reportXls)
 
 
