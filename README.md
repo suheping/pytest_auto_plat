@@ -26,7 +26,7 @@
 
 # 3 使用说明
 
-1. 安装依赖，再项目根目录下执行`pip install -r require.txt`
+1. 安装依赖，在项目根目录下执行`pip install -r require.txt`
 2. 修改/data/case1.xlsx 用例文件
 3. 执行 run.py`python run.py`
 4. 生成报告`allure generate result -o report --clean`

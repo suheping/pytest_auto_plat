@@ -20,7 +20,7 @@ from util.copyXls import copyXls
 from util.genSign import GenSign
 
 # 用例路径
-# caseXls = 'E:\pyworkspace\pytest_demo\data\case1.xlsx'
+# caseXls = 'data\case1.xlsx'
 caseXls = 'data\case1.xlsx'
 rxls = readXlsUtil.readXlsUtil(caseXls, 'Sheet1')
 # 获取type为1的测试用例
@@ -28,7 +28,7 @@ caseData = rxls.dict_data(1)
 # 获取用例名称
 caseNames = rxls.dict_name(caseData)
 # 测试结果文件
-# reportXls = 'E:\pyworkspace\pytest_demo\data\case1_report.xlsx'
+# reportXls = 'data\case1_report.xlsx'
 reportXls = 'data\case1_report.xlsx'
 copyXls(caseXls, reportXls)
 

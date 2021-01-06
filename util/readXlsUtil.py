@@ -50,7 +50,7 @@ class readXlsUtil():
 
 
 if __name__ == "__main__":
-    filepath = 'E:\pyworkspace\pytest_demo\data\case1.xlsx'
+    filepath = 'data\case1.xlsx'
     sheetName = 'Sheet1'
     data = readXlsUtil(filepath, sheetName)
 

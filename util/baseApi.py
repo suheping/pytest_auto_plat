@@ -90,7 +90,7 @@ def sendRequest(session, testData):
             result["result"] = "pass"
             result['error'] = ""
             # 将字节流保存到本地
-            savedFile = 'E:\\pyworkspace\\pytest_demo\\data\\download\\' + \
+            savedFile = 'data\download\\' + \
                 response.headers['Content-Disposition'].split('=')[1]
             with open(savedFile, "wb") as code:
                 code.write(response.content)
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     # 文件上传测试
     # file = {'file': open(
-    #     'E:\\pyworkspace\\pytest_demo\\data\\files\\公章.png', 'rb')}
+    #     'data\\files\\公章.png', 'rb')}
     # session = requests.session()
     # response = session.request(url='http://192.168.1.206:9000/api/v1/file/upload', method='post', params={"file_type": "impression", "file_name": "测试公章", "user_id": "00788730734155812864"}, headers={
     #                            "token": "0a5946bf-ae2c-4063-97a8-41d1fadf939d"}, files=file)
