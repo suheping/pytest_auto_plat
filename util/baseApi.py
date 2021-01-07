@@ -137,11 +137,11 @@ def sendRequest(session, testData):
 def writeResult(result, filename):
     rowNum = result['rowNum']
     wt = writeXls(filename)
-    wt.write(rowNum, 9, result['statusCode'])
-    wt.write(rowNum, 10, result['text'])
-    wt.write(rowNum, 11, result['error'])
-    wt.write(rowNum, 12, result['times'])
-    wt.write(rowNum, 13, result['result'])
+    wt.write(rowNum, 10, result['statusCode'])
+    wt.write(rowNum, 11, result['text'])
+    wt.write(rowNum, 12, result['error'])
+    wt.write(rowNum, 13, result['times'])
+    wt.write(rowNum, 14, result['result'])
 
 
 def writeResult2(result, filename):
