@@ -11,6 +11,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    # pytest.main(["--reruns", "1", "--reruns-delay",
-    #              "2", "--alluredir", "result"])
     main(sys.argv)

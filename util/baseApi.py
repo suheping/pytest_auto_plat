@@ -11,10 +11,12 @@ import requests
 from util.copyXls import writeXls, copyXls
 from util.readXlsUtil import readXlsUtil
 from util.logUtil import Log
+from util import deco
 
 logger = Log('baseApi').getlogger()
 
 
+@deco.decoJudgeMethod
 def sendRequest(session, testData):
     '''封装requests请求'''
     # print('testdata:%s'%testData)

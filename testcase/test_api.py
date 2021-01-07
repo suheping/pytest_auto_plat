@@ -9,6 +9,7 @@
 '''
 
 # here put the import lib
+from logging import Logger
 import pytest
 import allure
 import requests
