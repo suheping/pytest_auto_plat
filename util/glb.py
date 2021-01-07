@@ -22,3 +22,8 @@ if not os.path.exists('log'):
 logPath = os.path.join('log', ctime)
 
 dataPath = os.path.abspath(os.path.join(os.getcwd(), 'data'))
+
+# 要执行的用例文件路径，eg: data\case1.xlsx
+xls_path = ''
+# 要保持的结果文件的路径，eg: data\case1_report.xls
+xls_report_path = ''

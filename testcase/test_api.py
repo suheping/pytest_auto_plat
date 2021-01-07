@@ -12,16 +12,19 @@
 import pytest
 import allure
 import requests
-from util import readXlsUtil, logUtil
+from util import readXlsUtil, logUtil, glb
 from util.baseApi import sendRequest, writeResult
 from util.jsonPah import JsonPah
 from util.replace import Replace
 from util.copyXls import copyXls
 from util.genSign import GenSign
 
+
 # 用例路径
 # caseXls = 'data\case1.xlsx'
-caseXls = 'data\\case1.xlsx'
+# caseXls = 'data\\case1.xlsx'
+caseXls = glb.xls_path
+print(caseXls)
 rxls = readXlsUtil.readXlsUtil(caseXls, 'Sheet1')
 # 获取type为1的测试用例
 caseData = rxls.dict_data(1)
@@ -29,7 +32,8 @@ caseData = rxls.dict_data(1)
 caseNames = rxls.dict_name(caseData)
 # 测试结果文件
 # reportXls = 'data\case1_report.xlsx'
-reportXls = 'data\\case1_report.xlsx'
+# reportXls = 'data\\case1_report.xlsx'
+reportXls = glb.xls_report_path
 copyXls(caseXls, reportXls)
 
 
